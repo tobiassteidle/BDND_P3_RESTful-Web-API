@@ -73,6 +73,8 @@ class Blockchain {
         return new Promise(function (resolve, reject) {
             self.bd.getLevelDBData(height).then((block) => {
                 resolve(JSON.parse(block));
+            }).catch((e) => {
+                reject(e);
             });
         });
     }
