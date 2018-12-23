@@ -7,7 +7,7 @@ Additionally a RESTful WebAPI was added to interact with the blockchain via webs
 [LevelDB](http://leveldb.org/) - Key-/Value Store  
 [crypto-js](https://www.npmjs.com/package/crypto-js) - JavaScript library of crypto standards.  
 [boom](https://github.com/hapijs/boom) - HTTP-friendly error objects  
-[hapi](https://hapijs.com/) - Framework for building applications and services
+[hapi](https://hapijs.com/) - Framework for RESTful API
 
 ## Setup project 
 
