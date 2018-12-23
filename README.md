@@ -63,10 +63,10 @@ Append block to blockchain.
 **Sample Response:**
 ```
 {  
-   "hash":"1e39dc7adb3dbfb55b229f1a8a0aad21fac15608abcba53c2ba4fa05af80964b",
-   "height":0,
-   "body":"First block in the chain - Genesis block",
-   "time":"1545583517",
-   "previousBlockHash":""
-} 
+   "hash":"8e267bb67437363e5f20ad75198fc44543bba4f6db671fa000bd43b58544a1fd",
+   "height":3,
+   "body":"Testing block with test string data",
+   "time":"1545596824",
+   "previousBlockHash":"ca4c57e52d7ef3d3baaee7a538feb1dca2ee1172f2784ea206feed4b0b9cad24"
+}
 ```
