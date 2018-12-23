@@ -44,7 +44,7 @@ class BlockController {
                     let block = await this.blockchain.getBlock(height);
                     return JSON.stringify(block);
                 } catch (e) {
-                    throw Boom.badRequest("Invalid Block height.");
+                    throw Boom.badRequest("Block height out of bounds.");
                 }
             }
         });
