@@ -1,3 +1,4 @@
+const BlockChainClass = require('./BlockChain.js');
 const BlockClass = require('./Block.js');
 const Boom = require('boom');
 /**
@@ -11,6 +12,7 @@ class BlockController {
      */
     constructor(server) {
         this.server = server;
+        this.blockchain = new BlockChainClass.Blockchain(); // initialize Blockchain
         this.getBlockByIndex();
         this.postNewBlock();
     }
@@ -22,11 +24,28 @@ class BlockController {
         this.server.route({
             method: 'GET',
             path: '/block/{index}',
-            handler: (request, h) => {
-                throw Boom.badRequest("Unknown block index");
+            handler: async (request, h) => {
+                // get parameter from url
+                let height = encodeURIComponent(request.params.index);
+                try {
+                    // convert "height" paramter to integer
+                    height = parseInt(height);
 
+                    // check for valid height
+                    if(Number.isNaN(height)) {
+                        throw Boom.badRequest();
+                    }
+                } catch (e) {
+                    throw Boom.badRequest("Block height must be a valid integer.");
+                }
 
-                return 'Get Block, ' + encodeURIComponent(request.params.index) + '!';
+                try {
+                    // receive block from blockchain
+                    let block = await this.blockchain.getBlock(height);
+                    return JSON.stringify(block);
+                } catch (e) {
+                    throw Boom.badRequest("Invalid Block height.");
+                }
             }
         });
     }
@@ -38,7 +57,7 @@ class BlockController {
         this.server.route({
             method: 'POST',
             path: '/block',
-            handler: (request, h) => {
+            handler: async(request, h) => {
                 let payload = request.payload;
 
                 // check of payload is available
@@ -57,10 +76,15 @@ class BlockController {
 
                     // create block
                     let block = new BlockClass.Block(JSON.parse(payload).body);
+                    try {
+                        // add block to blockchain
+                        let resultBlock = await this.blockchain.addBlock(block);
 
-                    // return JSON for new block
-                    return JSON.stringify(block);
-
+                        // return JSON for new block
+                        return JSON.stringify(resultBlock);
+                    } catch (e) {
+                        throw Boom.internal("Unexpected error when adding block to blockchain.");
+                    }
                 } catch (e) {
                     // throw "bad request" exception
                     if(e instanceof Boom) {
