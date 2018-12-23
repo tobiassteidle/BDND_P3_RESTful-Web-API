@@ -62,6 +62,8 @@ class Blockchain {
             // Adding block object to chain
             self.bd.addLevelDBData(block.height, JSON.stringify(block)).then(()  => {
                 resolve(block);
+            }).catch((e) => {
+                reject(e);
             });
         });
     }
